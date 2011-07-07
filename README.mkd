@@ -1,0 +1,5 @@
+# PHP, jQuery, long polling
+
+This is the sameple for simple long polling
+
+

@@ -3,17 +3,16 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
-while (true) {
-    //fetch data
-    $random = rand(1, 10); //use random number to simulate data hit from db
-    $data = ($random == 1) ? array('aaa' => time()) : array();
+//fetch data
+$random = rand(1, 5); //use random number to simulate data hit from db
+$data = ($random == 1) ? array('aaa' => time()) : array();
 
-    //has data
-    if (!empty($data)) {
-        echo json_encode($data);
-        flush();
-        exit(0);
-    }
-    sleep(5);
+//there is no data updated
+if (empty($data)) {
+    header('HTTP/1.0 204 No Content');
+    die;
 }
 
+echo json_encode($data);
+flush();
+exit(0);

@@ -8,18 +8,26 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
         <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.6.2.min.js"%3E%3C/script%3E'))</script>
         <script>
+            var sleep = 10000;
             function fetch() {
                 $.ajax({
                     url: 'http://localhost/long_polling/server.php',
                     async: true,
+                    cache: false,
+                    timeout: 60000,
                     type: 'get',
                     dataType: 'json',
                     success: function(ret, textStatus, jqXHR) {
-                        $('#main').append('<p>' + ret.aaa + '</p>');
-                        fetch();
+                        if (jqXHR.status == 204) {
+                            //no data return, sleep xx seconds
+                            setTimeout(fetch, sleep);
+                        } else {
+                            $('#main').append('<p>' + ret.aaa + '</p>');
+                            setTimeout(fetch, sleep);
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        setTimeout(fetch, 5000);
+                        setTimeout(fetch, sleep);
                     }
                 });
             }
